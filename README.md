@@ -2,10 +2,7 @@
 
 Implementation of three machine learning algorithms from scratch using NumPy only, as part of Machine Learning Assignment 2.
 
-**Student:** Afrazia Umer  
-**Roll No:** BSCS23029  
-**Seed:** 29
-
+*
 ---
 
 ## Algorithms Implemented
