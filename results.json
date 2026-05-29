@@ -1,0 +1,232 @@
+{
+  "q1_partB": {
+    "friendly_ARI": 1.0,
+    "adversarial_ARI": -0.0005,
+    "adversarial_after_standardization_ARI": -0.0007,
+    "analysis": "Friendly dataset: well-separated spherical Gaussians satisfy all k-Means assumptions (convex, balanced, isotropic). ARI near 1. Adversarial dataset: concentric rings violate the convex-Voronoi assumption; k-Means cannot find a linear boundary separating them. Standardisation does not help because the failure is structural (non-convex geometry), not a scale artefact."
+  },
+  "q1_partC": {
+    "n_runs": 20,
+    "inertia_min": 16996.69,
+    "inertia_max": 31929.84,
+    "inertia_mean": 19202.17,
+    "ARI_min": 0.6295,
+    "ARI_max": 1.0,
+    "ARI_at_lowest_inertia": 1.0,
+    "analysis": "Different random initializations lead to different local minima because k-Means optimizes a non-convex objective. Runs that happen to place centroids near the true cluster centers converge to the global optimum (low inertia, high ARI). Poor initializations get trapped in local minima with higher inertia. The strong correlation between low inertia and high ARI confirms that minimizing the objective also recovers the true structure on well-separated data."
+  },
+  "q2_partB": {
+    "test_accuracy": 0.8967,
+    "mean_confidence": 0.9283,
+    "expected_calibration_error": 0.0417,
+    "fraction_high_confidence_wrong": 0.0341,
+    "analysis": "X1 and X2 are nearly identical (correlation \u2248 0.99). NB treats them as independent, counting their evidence twice. This inflates the log-posterior, pushing predicted probabilities toward 0 or 1 far more than warranted. The reliability diagram shows the model curves ABOVE the diagonal at high confidence, meaning it is more confident than accurate \u2014 a classic overconfidence pattern."
+  },
+  "q2_partC": {
+    "nb_friendly_test_acc": 0.7044,
+    "nb_xor_test_acc": 0.4889,
+    "analysis_success": "Independence assumption is technically satisfied (features are generated independently). Even though each feature has only a small mean shift (0.4\u03c3), NB multiplies 15 log-likelihoods, accumulating enough evidence for reliable classification. This is the 'blessing of independence': many weak signals compound into a strong classifier.",
+    "analysis_failure": "XOR requires P(y|X1,X2) that is non-monotone in each feature separately. NB models P(y|X1,X2) = P(y|X1)*P(y|X2)*P(y), which produces an axis-aligned Gaussian decision boundary \u2014 it can only draw a single hyperplane. The XOR boundary needs 4 quadrants, impossible with a log-linear model over independent features."
+  },
+  "q2_partD": {
+    "small_dataset_advantage": "On small datasets, complex models (e.g. SVMs, neural networks) suffer high variance because they have many parameters to estimate from few samples. NB has only 2*d parameters (one mean and one variance per feature per class), making it extremely parameter-efficient. Its strong inductive bias (conditional independence) acts as a regularizer: even if the assumption is slightly wrong, the low-variance estimator often outperforms a high-variance alternative that overfits the small training set. Formally, the bias-variance decomposition of test error is E[loss] = Bias^2 + Variance + Noise. On small n, variance dominates; NB's strong prior trades a little extra bias for a large reduction in variance.",
+    "correlated_overconfidence_math": "Let X1 and X2 be perfectly correlated (X2 = X1 + eps, eps~N(0,s^2)). NB computes log P(y=1|x) proportional to log P(x1|y=1) + log P(x2|y=1) + log P(y=1). Because x2 \u2248 x1, both log-likelihood terms carry nearly identical evidence, so the sum is roughly 2 * log P(x1|y=1). Compared to a model that sees a SINGLE feature, the posterior logit is doubled: logit = 2*(mu1-mu0)/sigma^2 * x - const. Feeding this doubled logit through the sigmoid gives probabilities closer to 0 or 1 (overconfident) than the single-feature model, even though no new information was added. In general, if d features are mutually redundant, the effective logit is d times the correct value, so overconfidence grows exponentially in d."
+  },
+  "q3_partB": [
+    {
+      "criterion": "info_gain",
+      "max_depth": 2,
+      "first_feature": 0,
+      "train_acc": 0.9807,
+      "test_acc": 0.9767,
+      "n_leaves": 4
+    },
+    {
+      "criterion": "info_gain",
+      "max_depth": 4,
+      "first_feature": 0,
+      "train_acc": 0.985,
+      "test_acc": 0.9767,
+      "n_leaves": 9
+    },
+    {
+      "criterion": "info_gain",
+      "max_depth": 8,
+      "first_feature": 0,
+      "train_acc": 0.9986,
+      "test_acc": 0.9667,
+      "n_leaves": 22
+    },
+    {
+      "criterion": "gain_ratio",
+      "max_depth": 2,
+      "first_feature": 0,
+      "train_acc": 0.9807,
+      "test_acc": 0.9767,
+      "n_leaves": 4
+    },
+    {
+      "criterion": "gain_ratio",
+      "max_depth": 4,
+      "first_feature": 0,
+      "train_acc": 0.99,
+      "test_acc": 0.9667,
+      "n_leaves": 12
+    },
+    {
+      "criterion": "gain_ratio",
+      "max_depth": 8,
+      "first_feature": 0,
+      "train_acc": 0.9993,
+      "test_acc": 0.9583,
+      "n_leaves": 28
+    }
+  ],
+  "q3_partC": {
+    "depths": [
+      1,
+      2,
+      3,
+      4,
+      6,
+      8,
+      12,
+      16,
+      20,
+      25
+    ],
+    "train_acc": [
+      0.6914,
+      0.7,
+      0.7105,
+      0.7248,
+      0.7495,
+      0.7686,
+      0.7924,
+      0.8162,
+      0.8467,
+      0.8695
+    ],
+    "test_acc": [
+      0.6622,
+      0.66,
+      0.6444,
+      0.6511,
+      0.6511,
+      0.6556,
+      0.6333,
+      0.6222,
+      0.5978,
+      0.6044
+    ],
+    "n_leaves": [
+      2,
+      4,
+      8,
+      14,
+      29,
+      44,
+      67,
+      91,
+      111,
+      131
+    ],
+    "best_depth_by_val": 1,
+    "best_val_acc": 0.6622,
+    "analysis": "Shallow trees (depth 1-2) underfit: high bias, both train and test accuracy are low. As depth increases, train accuracy rises monotonically toward 1.0 (the tree memorises training noise). Test accuracy peaks at an intermediate depth then decreases \u2014 classic overfitting (high variance). The n_leaves curve shows exponential growth in tree size, confirming the model complexity explosion. On noisy data the tree memorises label noise, hurting generalization."
+  },
+  "q3_partD": {
+    "greedy_full_first_feature": 2,
+    "greedy_full_test_acc": 0.6983,
+    "greedy_full_n_leaves": 11,
+    "greedy_nodecoy_test_acc": 0.5017,
+    "greedy_nodecoy_n_leaves": 32,
+    "optimal_test_acc": 1.0,
+    "greedy_tree_text": "[X2 <= 0.8854]  (n=1400)\n  [X6 <= -2.2857]  (n=711)\n    -> class 0  (n=11)\n    [X10 <= 2.1309]  (n=700)\n      [X7 <= -2.2444]  (n=689)\n        -> class 0  (n=11)\n        -> class 0  (n=678)\n      [X10 <= 2.6813]  (n=11)\n        -> class 1  (n=9)\n        -> class 0  (n=2)\n  [X2 <= 1.1113]  (n=689)\n    [X3 <= 2.1472]  (n=678)\n      [X4 <= 2.2295]  (n=667)\n        -> class 1  (n=656)\n        -> class 1  (n=11)\n      [X0 <= 0.8953]  (n=11)\n        -> class 1  (n=10)\n        -> class 0  (n=1)\n    [X2 <= 1.1128]  (n=11)\n      -> class 0  (n=1)\n      -> class 1  (n=10)",
+    "optimal_tree_text": "if X1 <= 0:\n    if X2 <= 0:  -> class 0\n    else:        -> class 1\nelse:\n    if X2 <= 0:  -> class 1\n    else:        -> class 0",
+    "analysis": "Greedy splitting evaluates each feature in isolation. For XOR, splitting on X1 or X2 alone gives exactly 50/50 class distribution in both branches (zero information gain). The decoy feature (70% correlated with y) has high marginal IG, so the greedy algorithm picks it as the root. After the decoy is used, the remaining tree struggles because the true signal requires a two-level interaction. The globally optimal tree achieves near-perfect accuracy by first splitting X1 (even though it has 0 marginal IG), then X2, exploiting the XOR interaction \u2014 something greedy cannot anticipate."
+  },
+  "q3_partE": {
+    "flip_rates": [
+      0.0,
+      0.05,
+      0.1,
+      0.2,
+      0.3
+    ],
+    "train_acc": [
+      0.9952,
+      0.9467,
+      0.8724,
+      0.7667,
+      0.7105
+    ],
+    "test_acc_clean": [
+      0.9222,
+      0.5511,
+      0.5356,
+      0.5244,
+      0.5111
+    ],
+    "depths": [
+      10,
+      10,
+      10,
+      10,
+      10
+    ],
+    "n_leaves": [
+      49,
+      60,
+      46,
+      36,
+      46
+    ],
+    "first_feature_each_run": [
+      4,
+      4,
+      4,
+      4,
+      4
+    ],
+    "analysis": "As label-flip rate increases, the tree needs more leaves to memorise the contradictory labels in training, so n_leaves grows and the effective depth increases. Train accuracy on noisy labels stays high (the tree memorises noise), but test accuracy on clean labels drops significantly, demonstrating instability. Even small perturbations (5% flip) can change the root split feature because information gain differences between features are small and easily perturbed \u2014 a key reason decision trees are called 'unstable learners'."
+  },
+  "high_dim_experiment": {
+    "n": 5000,
+    "d": 60,
+    "n_informative": 5,
+    "n_noise": 55,
+    "gnb_test_acc": 0.918,
+    "dt_results": [
+      {
+        "depth": 2,
+        "train_acc": 0.8437,
+        "test_acc": 0.8427,
+        "n_leaves": 4,
+        "first_feature": 4
+      },
+      {
+        "depth": 5,
+        "train_acc": 0.9011,
+        "test_acc": 0.872,
+        "n_leaves": 28,
+        "first_feature": 4
+      },
+      {
+        "depth": 10,
+        "train_acc": 0.9734,
+        "test_acc": 0.8893,
+        "n_leaves": 131,
+        "first_feature": 4
+      },
+      {
+        "depth": 20,
+        "train_acc": 0.9994,
+        "test_acc": 0.886,
+        "n_leaves": 194,
+        "first_feature": 4
+      }
+    ],
+    "analysis": "With 55 noise features and only 5 informative ones, shallow trees must select informative features from a large pool. GNB benefits from the approximately independent (correct) features and performs well at low parameter cost. Deep trees overfit the noise, degrading test accuracy even with n=5000 samples."
+  }
+}
