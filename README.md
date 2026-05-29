@@ -2,7 +2,6 @@
 
 Implementation of three machine learning algorithms from scratch using NumPy only, as part of Machine Learning Assignment 2.
 
-*
 ---
 
 ## Algorithms Implemented
