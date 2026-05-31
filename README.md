@@ -11,7 +11,7 @@ Implementation of three machine learning algorithms from scratch using NumPy onl
 - Fully vectorised assignment and centroid update
 - Convergence via centroid shift tolerance
 - Tested on friendly (ARI=1.0) and adversarial (concentric rings) datasets
-......
+........
   
 ### 2. Gaussian Naive Bayes
 - MLE class priors and per-class Gaussian parameters
